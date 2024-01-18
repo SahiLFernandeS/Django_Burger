@@ -10,33 +10,41 @@ def login_url(request):
 
 @csrf_exempt
 def login_api(request):
-    if request.method == "POST":
-        username = request.POST.get("username")
-        password = request.POST.get("password")
+    try:
+        if request.method == "POST":
+            username = request.POST.get("username")
+            password = request.POST.get("password")
 
-        if username == "sahil" and password == "1234":
-            data = {
-                "username": "sahil",
-                "age": 23,
-                "gender": "Male",
-                "Designation": "Software Developer"
-            }
-            response = {}
-            response["status"] = True
-            response["message"] = "Success"
-            response["data"] = data
-            return JsonResponse(response)
-        else:
-            response = {}
-            response["status"] = False
-            response["message"] = "Invalid username or password"
-            response["data"] = []
-            return JsonResponse(response)
-    response = {}
-    response["status"] = False
-    response["message"] = "Get Request not allowed"
-    response["data"] = []
-    return JsonResponse(response)
+            if username.upper() == "SAHIL" and password == "1234":
+                data = {
+                    "username": "sahil",
+                    "age": 23,
+                    "gender": "Male",
+                    "Designation": "Software Developer"
+                }
+                response = {}
+                response["status"] = True
+                response["message"] = "Success"
+                response["data"] = data
+                return JsonResponse(response)
+            else:
+                response = {}
+                response["status"] = False
+                response["message"] = "Invalid username or password"
+                response["data"] = []
+                return JsonResponse(response)
+        response = {}
+        response["status"] = False
+        response["message"] = "Get Request not allowed"
+        response["data"] = []
+        return JsonResponse(response)
+    except Exception as e:
+        print("Error--------->", e)
+        response = {}
+        response["status"] = False
+        response["message"] = "Internal server error!"
+        response["data"] = []
+        return JsonResponse(response)
 
 
 def home_url(request):
